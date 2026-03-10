@@ -1,0 +1,24 @@
+project:
+  ticker: "6301.T"
+  benchmark: "TOPIX"
+  timezone: "Asia/Tokyo"
+
+horizon:
+  prediction_days: 10
+  max_holding_days: 15
+
+thresholds:
+  buy_score: 70
+  watch_score: 45
+  stop_loss: -0.03
+  take_profit: 0.06
+  min_confidence: 0.60
+
+features:
+  use_price: true
+  use_technical: true
+  use_margin: true
+  use_short_interest: true
+  use_fundamentals: true
+  use_komatsu_ir: true
+  use_news: true
