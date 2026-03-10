@@ -1,0 +1,16 @@
+alpha_vantage:
+  function: TIME_SERIES_DAILY_ADJUSTED
+  outputsize: full
+
+news_api:
+  query: "Komatsu OR コマツ"
+  language: "jp"
+
+edinet:
+  doc_types:
+    - 有価証券報告書
+    - 四半期報告書
+
+jpx:
+  margin_url: "https://www.jpx.co.jp/markets/statistics-equities/margin/"
+  short_url: "https://www.jpx.co.jp/markets/statistics-equities/short-selling/"
