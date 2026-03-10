@@ -14,7 +14,7 @@ from src.processing.asof_join import asof_join
 from src.utils.io import read_parquet, write_parquet
 
 
-def run_features() -> pd.DataFrame:
+def run_features(start: str | None = None, end: str | None = None) -> pd.DataFrame:
     raw = Path("data/raw")
     price = read_parquet(raw / "price.parquet")
     price["benchmark_close"] = price["close"] * 0.98
@@ -38,5 +38,8 @@ def run_features() -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    _ = argparse.ArgumentParser().parse_args()
-    run_features()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start", required=False)
+    parser.add_argument("--end", required=False)
+    args = parser.parse_args()
+    run_features(args.start, args.end)

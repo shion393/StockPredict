@@ -17,4 +17,7 @@ def asof_join(left: pd.DataFrame, right: pd.DataFrame, left_on: str, right_on: s
     # 重複列を避けるためrightからleftと重なる列を除外（キー列以外）
     overlap = [c for c in r.columns if c in l.columns and c != right_on]
     r = r.drop(columns=overlap)
+    # left側にright_onと同名の列があれば除外（マージ後の重複防止）
+    if right_on in l.columns and right_on != left_on:
+        l = l.drop(columns=[right_on])
     return pd.merge_asof(l, r, left_on=left_on, right_on=right_on, direction="backward")
