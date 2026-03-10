@@ -14,4 +14,7 @@ def _normalize_datetime_key(df: pd.DataFrame, col: str) -> pd.DataFrame:
 def asof_join(left: pd.DataFrame, right: pd.DataFrame, left_on: str, right_on: str) -> pd.DataFrame:
     l = _normalize_datetime_key(left, left_on).sort_values(left_on)
     r = _normalize_datetime_key(right, right_on).sort_values(right_on)
+    # 重複列を避けるためrightからleftと重なる列を除外（キー列以外）
+    overlap = [c for c in r.columns if c in l.columns and c != right_on]
+    r = r.drop(columns=overlap)
     return pd.merge_asof(l, r, left_on=left_on, right_on=right_on, direction="backward")
