@@ -1,0 +1,16 @@
+model:
+  classifier: "lightgbm"
+  regressor: "lightgbm"
+  calibration: "isotonic"
+  random_state: 42
+
+weights:
+  buy_probability: 0.45
+  normalized_expected_return: 0.35
+  supply_demand_score: 0.10
+  news_quality_score: 0.10
+
+training:
+  n_trials: 100
+  cv_scheme: "walk_forward"
+  retrain_frequency: "monthly"
