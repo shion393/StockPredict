@@ -28,7 +28,8 @@ def run_inference(asof: str) -> InferenceOutput:
     prob = float(cls.predict(x).iloc[0])
     exp = float(reg.predict(x).iloc[0])
     risk = float(estimate_risk(feat).iloc[-1])
-    decision = DecisionEngine().decide(prob, exp, risk, prob)
+    confidence = max(prob, 1 - prob) * (1 - min(risk, 0.8) * 0.4)
+    decision = DecisionEngine().decide(prob, exp, risk, confidence)
 
     return InferenceOutput(
         as_of_date=asof,
@@ -42,8 +43,8 @@ def run_inference(asof: str) -> InferenceOutput:
         top_reasons=top_feature_reasons(latest),
         warnings=["決算発表や重要イベント近辺の変動に注意"],
         feature_snapshot={
-            "rsi_14": float(latest.get("ret_10", 0) * 100),
-            "macd_hist": float(latest.get("ma_gap_5", 0) * 100),
+            "rsi_14": float(latest.get("rsi_14", 50)),
+            "macd_hist": float(latest.get("macd_hist", 0)),
             "margin_ratio": float(latest.get("margin_ratio", 0)),
             "short_interest_ratio": float(latest.get("short_interest_ratio", 0)),
             "bb_ratio_mining": float(latest.get("bb_ratio_mining", 0)),

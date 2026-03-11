@@ -19,7 +19,7 @@ def run_training() -> None:
     y_reg = y_reg.loc[usable_idx]
 
     cols = [
-        "ret_1", "ret_5", "ret_10", "ma_gap_5", "ma_gap_25", "volatility_20", "volume_spike",
+        "ret_1", "ret_5", "ret_10", "ma_gap_5", "ma_gap_25", "volatility_20", "volume_spike", "rsi_14", "macd_hist",
         "margin_ratio", "short_interest_ratio", "supply_demand_score", "fundamental_momentum",
         "komatsu_business_score", "news_quality_score",
     ]

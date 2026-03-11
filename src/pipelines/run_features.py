@@ -14,10 +14,16 @@ from src.processing.asof_join import asof_join
 from src.utils.io import read_parquet, write_parquet
 
 
+def _build_benchmark_from_price(price: pd.DataFrame) -> pd.Series:
+    ret = price["close"].pct_change().fillna(0)
+    bench_ret = (ret * 0.65).rolling(5, min_periods=1).mean()
+    return price["close"].iloc[0] * (1 + bench_ret).cumprod()
+
+
 def run_features(start: str | None = None, end: str | None = None) -> pd.DataFrame:
     raw = Path("data/raw")
     price = read_parquet(raw / "price.parquet")
-    price["benchmark_close"] = price["close"] * 0.98
+    price["benchmark_close"] = _build_benchmark_from_price(price)
     news = read_parquet(raw / "news.parquet")
     edinet = read_parquet(raw / "edinet.parquet")
     margin = read_parquet(raw / "jpx_margin.parquet")
